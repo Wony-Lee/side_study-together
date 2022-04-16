@@ -6,6 +6,10 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 760px;
+  max-height: 760px;
+  height: 100%;
+  overflow-x: scroll;
   border: 1px solid blue;
 `;
 
@@ -22,6 +26,9 @@ const GroupList = () => {
       {groupSample.map((item) => (
         <GroupItem key={item.id} id={item.id} title={item.title} />
       ))}
+      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
+      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
+      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
     </Layout>
   );
 };
