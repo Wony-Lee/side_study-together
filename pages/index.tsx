@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import AppLayout from "../components/AppLayout";
 import GroupList from "../components/Content/GroupList";
-import Form from "../components/MakeForm/Form";
+import Frame from "../components/CreateStudy/Frame";
 
 const Home: NextPage = () => {
   return (
     <AppLayout>
       <GroupList />
-      <Form />
+      <Frame />
     </AppLayout>
   );
 };
