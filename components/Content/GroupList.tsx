@@ -15,11 +15,11 @@ const Layout = styled.div`
 
 const GroupList = () => {
   const groupSample = [
-    { id: 1, title: "1" },
-    { id: 2, title: "2" },
-    { id: 3, title: "3" },
-    { id: 4, title: "4" },
-    { id: 5, title: "5" },
+    { id: 1, title: "title1" },
+    { id: 2, title: "title2" },
+    { id: 3, title: "title3" },
+    { id: 4, title: "title4" },
+    { id: 5, title: "title5" },
   ];
   return (
     <Layout>
