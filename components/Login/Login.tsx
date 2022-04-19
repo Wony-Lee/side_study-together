@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import Image, { StaticImageData } from "next/image";
-import logoURL from "./icons/people_icon.png";
-import iconIdURL from "./icons/login_user_icon.png";
-import iconPaasswordURL from "./icons/password_icon.png";
+import logoURL from "../../public/images/icons/people_icon.png";
+import iconIdURL from "../../public/images/icons/login_user_icon.png";
+import iconPaasswordURL from "../../public/images/icons/password_icon.png";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -121,7 +121,8 @@ function Login() {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid)}>
-        <Image src={logoURL} alt="StudyLogo" width={300} height={300} />
+        {/*<Image src={logoURL} alt="StudyLogo" width={300} height={300} />*/}
+        <img src={"/images/icons/people_icon.png"} alt="StudyLogo" />
 
         <InputWrapper>
           <Input
