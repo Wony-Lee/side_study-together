@@ -86,7 +86,7 @@ const TextArea = styled.textarea`
 `;
 
 const ButtonSummit = styled.button`
-  width: 100px;
+  width: 200px;
   height: 30px;
   border: 0;
   border-radius: 8px;
@@ -202,20 +202,10 @@ const Frame = () => {
         </ElementWrapper>
         <ElementWrapper
           style={{
-            justifyContent: "flex-end",
+            justifyContent: "center", // flex-end
           }}
         >
-          <ButtonSummit
-            style={{
-              width: "100px",
-              height: "30px",
-              border: "0",
-              borderRadius: "8px",
-            }}
-            type="submit"
-          >
-            만들기
-          </ButtonSummit>
+          <ButtonSummit type="submit">스터디 생성</ButtonSummit>
         </ElementWrapper>
       </form>
     </Wrapper>
