@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
-import Image, { StaticImageData } from "next/image";
-import logoURL from "./icons/people_icon.png";
-import iconIdURL from "./icons/login_user_icon.png";
-import iconPaasswordURL from "./icons/password_icon.png";
+import Image from "next/image";
+import { iconID, iconLogo, iconPassword } from "../../public/images/url_image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -12,7 +10,7 @@ interface ILogin {
 }
 
 interface IImageWrapper {
-  url: StaticImageData;
+  url: string;
   alt: string;
 }
 
@@ -121,7 +119,8 @@ function Login() {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid)}>
-        <Image src={logoURL} alt="StudyLogo" width={300} height={300} />
+        <Image src={iconLogo} alt="StudyLogo" width={300} height={300} />
+        {/* <img src={"/images/icons/people_icon.png"} alt="StudyLogo" /> */}
 
         <InputWrapper>
           <Input
@@ -134,7 +133,7 @@ function Login() {
               },
             })}
           />
-          <ImageWrapper url={iconIdURL} alt="iconID" />
+          <ImageWrapper url={iconID} alt="iconID" />
         </InputWrapper>
         <SpanError>{errors?.id?.message}</SpanError>
         <InputWrapper>
@@ -144,7 +143,7 @@ function Login() {
               required: "비밀번호를 입력해주세요",
             })}
           />
-          <ImageWrapper url={iconPaasswordURL} alt="iconPassword" />
+          <ImageWrapper url={iconPassword} alt="iconPassword" />
         </InputWrapper>
         <SpanError>{errors?.password?.message}</SpanError>
         <Button type="submit">로그인</Button>
@@ -152,7 +151,7 @@ function Login() {
       <LinkWrapper>
         <Link href={"#"}>아이디 찾기</Link>
         <Link href={"#"}>비밀번호 찾기</Link>
-        <Link href={"#"}>회원가입</Link>
+        <Link href={"/tos"}>회원가입</Link>
       </LinkWrapper>
     </Wrapper>
   );
