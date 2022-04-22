@@ -15,20 +15,18 @@ const Layout = styled.div`
 
 const GroupList = () => {
   const groupSample = [
-    { id: 1, title: "1" },
-    { id: 2, title: "2" },
-    { id: 3, title: "3" },
-    { id: 4, title: "4" },
-    { id: 5, title: "5" },
+    { id: 1, title: "타이틀1" },
+    { id: 2, title: "타이틀2" },
+    { id: 3, title: "타이틀3" },
+    { id: 4, title: "타이틀4" },
+    { id: 5, title: "타이틀5" },
+    { id: 6, title: "타이틀6" },
   ];
   return (
     <Layout>
       {groupSample.map((item) => (
         <GroupItem key={item.id} id={item.id} title={item.title} />
       ))}
-      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
-      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
-      <div style={{ margin: 200, border: "1px solid red" }}>a</div>
     </Layout>
   );
 };

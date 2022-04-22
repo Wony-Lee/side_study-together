@@ -9,8 +9,8 @@ const Home: NextPage = () => {
   return (
     <AppLayout>
       <GroupList />
+
       <Frame />
-      <Login />
       <TermsOfService />
     </AppLayout>
   );

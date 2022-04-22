@@ -17,7 +17,7 @@ interface IImageWrapper {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  //height: 100vh;
   justify-content: center;
   align-items: center;
   /* background-color: orange; */
@@ -121,7 +121,6 @@ function Login() {
       <Form onSubmit={handleSubmit(onValid)}>
         <Image src={iconLogo} alt="StudyLogo" width={300} height={300} />
         {/* <img src={"/images/icons/people_icon.png"} alt="StudyLogo" /> */}
-
         <InputWrapper>
           <Input
             placeholder="아이디"

@@ -12,14 +12,14 @@ import { iconLogo } from "../../public/images/url_image";
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  //height: 100vh;
   background-color: rgb(233, 233, 233, 1);
   /* background-color: red; */
 `;
 
 const LogoWrapper = styled.div`
   display: flex;
-  height: 23vh;
+  //height: 23vh;
   align-items: center;
   justify-content: center;
   /* background-color: orange; */
@@ -27,7 +27,7 @@ const LogoWrapper = styled.div`
 `;
 
 const MainWrapper = styled.div`
-  height: 77vh;
+  //height: 77vh;
   /* background-color: rgb(233, 233, 233, 0.4); */
   /* background-color: yellow; */
   /* margin: 10px; */
@@ -147,9 +147,9 @@ function TermsOfService() {
           - 1번과 같이 div안에 없으면 click 잘 됌.
           - 2번 혼자 렌더링 됐을 때는 클릭이 안 됐지만 1번 먼저 렌더링 해주고
           그 다음 2번 렌더링 해주면 체크 박스 클릭이 되긴 하는데 체크박스 영역 y축기준으로
-          반나눴을 때 위는 클릭안돼고 아래만 클릭됌.  
-          - 1번 2번 3번 다 렌더링 하면 1번은 정상작동 2번은 영역의 반만 클릭 가능 
-          3번은 체크박스 전체영역 클릭가능  
+          반나눴을 때 위는 클릭안돼고 아래만 클릭됌.
+          - 1번 2번 3번 다 렌더링 하면 1번은 정상작동 2번은 영역의 반만 클릭 가능
+          3번은 체크박스 전체영역 클릭가능
           */}
         {/* 1 */}
         <CheckBox
