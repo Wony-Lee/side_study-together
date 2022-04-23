@@ -1,6 +1,7 @@
 // Simple React Snippets 'rafce', it is similiar with template
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
+import { SpanError } from "../Error/Error";
 
 interface IStudyForm {
   capacity: number;
@@ -97,12 +98,6 @@ const ButtonSummit = styled.button`
   }
 `;
 
-const SpanError = styled.span`
-  color: red;
-  font-size: 20px;
-  margin-left: 30px;
-`;
-
 const Frame = () => {
   // "handleSubmit" will validate your inputs before invoking "onSubmit"
   const {
@@ -131,8 +126,9 @@ const Frame = () => {
               required: "이름을 기입해주세요",
             })}
           />
+          <SpanError>{errors?.title?.message}</SpanError>
         </ElementWrapper>
-        <SpanError>{errors?.title?.message}</SpanError>
+
         <ElementWrapper>
           <Label htmlFor="region">지역</Label>
           <Select {...register("region")}>
@@ -164,8 +160,8 @@ const Frame = () => {
               },
             })}
           ></Input>
+          <SpanError>{errors?.capacity?.message}</SpanError>
         </ElementWrapper>
-        <SpanError>{errors?.capacity?.message}</SpanError>
 
         <ElementWrapper>
           <Label htmlFor="region">진행기간</Label>
