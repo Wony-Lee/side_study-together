@@ -108,7 +108,7 @@ const LinkWrapper = styled.div`
   }
 `;
 
-function Login() {
+function LoginForm() {
   const {
     register,
     handleSubmit,
@@ -158,4 +158,4 @@ function Login() {
     </Wrapper>
   );
 }
-export default Login;
+export default LoginForm;

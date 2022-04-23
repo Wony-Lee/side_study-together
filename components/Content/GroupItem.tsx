@@ -1,18 +1,10 @@
-import React, { ChangeEvent, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
-import { SET_VIEW_OFF, SET_VIEW_ON } from "../../reducers/studyReducer";
-import { RootState } from "../../reducers";
 
 const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 640px;
-  min-height: 50px;
-  width: 100%;
-  margin: 10px;
-  border: 1px solid red;
+  margin: 20px 0 20px 0;
+  border: 1px solid black;
+  width: 500px;
 `;
 
 const Header = styled.div`
@@ -44,17 +36,15 @@ const Subject = styled.div`
   border: 1px solid red;
 `;
 
-const Detail = styled.div`
+const Detail = styled.div<{ viewState: boolean }>`
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 200px;
   border: 1px solid red;
   .top {
     width: 100%;
     height: 70%;
     padding: 10px;
-
     overflow: scroll;
     box-sizing: border-box;
     border: 1px solid skyblue;
@@ -65,7 +55,6 @@ const Detail = styled.div`
     width: 100%;
     height: 30%;
     padding: 10px;
-
     box-sizing: border-box;
     border: 1px solid greenyellow;
     .count {
@@ -81,6 +70,7 @@ const Detail = styled.div`
         border: 0;
         border-radius: 12px;
         background: radial-gradient(skyblue, deepskyblue);
+
         &:active {
           color: mediumvioletred;
           background: radial-gradient(white, lightcoral);
@@ -88,68 +78,83 @@ const Detail = styled.div`
       }
     }
   }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      height: 0px;
+    }
+    to {
+      opacity: 1;
+      height: 200px;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      height: 200px;
+    }
+    to {
+      opacity: 0;
+      height: 0px;
+    }
+  }
+  animation-duration: 2s;
+  animation-name: ${({ viewState }) => (viewState ? "fadeIn" : "fadeOut")};
 `;
 
 interface Props {
   id: number;
   title: string;
-  viewState: boolean;
+  onModal: () => void;
 }
 
-const GroupItem = ({ id, title }: Props) => {
-  const dispatch = useDispatch();
-  const { viewState } = useSelector((state: RootState) => state.study);
-  const handleViewDescription = useCallback(
-    // (e: React.MouseEventHandler<HTMLDivElement>) => {
-    () => {
-      if (!viewState) {
-        dispatch({
-          type: SET_VIEW_ON,
-        });
-      }
-      if (viewState) {
-        dispatch({
-          type: SET_VIEW_OFF,
-        });
-      }
-    },
-    [viewState]
-  );
+const GroupItem = ({ id, title, onModal }: Props) => {
+  const [viewState, setViewState] = useState(false);
+
+  const handleDetail = useCallback(() => {
+    setViewState((prev) => (prev = !prev));
+  }, []);
   return (
     <Layout>
       <Header>
         <p className={"number"}>{id}</p>
         <p className={"title"}>{title}</p>
       </Header>
-      <Subject>자세히 보기</Subject>
-      <Detail>
-        <div className={"top"}>
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-        </div>
-        <div className={"bottom"}>
-          <p className={"count"}>현재 인원 1/10</p>
-          <div className={"item"}>
-            <button>참가하기</button>
+      <Subject>
+        <button onClick={handleDetail}>
+          {viewState ? "닫기" : "자세히 보기"}
+        </button>
+      </Subject>
+      {viewState && (
+        <Detail viewState={viewState}>
+          <div className={"top"}>
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
           </div>
-        </div>
-      </Detail>
+          <div className={"bottom"}>
+            <p className={"count"}>현재 인원 1/10</p>
+            <div className={"item"}>
+              <button onClick={onModal}>참가하기</button>
+            </div>
+          </div>
+        </Detail>
+      )}
     </Layout>
   );
 };

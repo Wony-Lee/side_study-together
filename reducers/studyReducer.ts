@@ -1,19 +1,21 @@
-export const SET_VIEW_ON = "SET_VIEW_ON" as const;
-export const SET_VIEW_OFF = "SET_VIEW_OFF" as const;
+export const SET_MODAL_ON = "SET_MODAL_ON" as const;
+export const SET_MODAL_OFF = "SET_MODAL_OFF" as const;
 
 export const setViewOn = () => ({
-  type: SET_VIEW_ON,
+  type: SET_MODAL_ON,
+  payload: true,
 });
 export const setViewOff = () => ({
-  type: SET_VIEW_OFF,
+  type: SET_MODAL_OFF,
+  payload: false,
 });
 
 export interface IStudyState {
-  viewState: boolean;
+  modalState: boolean;
 }
 
 export const initialState: IStudyState = {
-  viewState: false,
+  modalState: false,
 };
 
 export type StudyAction =
@@ -22,15 +24,15 @@ export type StudyAction =
 
 const reducer = (state = initialState, action: StudyAction) => {
   switch (action.type) {
-    case SET_VIEW_ON:
+    case SET_MODAL_ON:
       return {
         ...state,
-        viewState: true,
+        modalState: action.payload,
       };
-    case SET_VIEW_OFF:
+    case SET_MODAL_OFF:
       return {
         ...state,
-        viewState: false,
+        modalState: action.payload,
       };
     default:
       return state;

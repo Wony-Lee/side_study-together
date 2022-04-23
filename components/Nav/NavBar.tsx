@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import NavItem from "./NavItem";
+import Link from "next/link";
 
 const Layout = styled.div`
   display: flex;
@@ -34,6 +35,13 @@ const LeftBlock = styled.div`
   padding: 10px;
   width: 50%;
   border: 1px solid red;
+  a {
+    color: black;
+    text-decoration: none;
+    &:hover {
+      color: pink;
+    }
+  }
 `;
 
 const RightBlock = styled.div`
@@ -49,11 +57,17 @@ interface Props {}
 const NavBar = () => {
   return (
     <Layout>
-      <LeftBlock>dsa</LeftBlock>
+      <LeftBlock>
+        <Link href={"/"}>Logo</Link>
+      </LeftBlock>
       <RightBlock>
         <NavUl>
-          <li>등록하기</li>
-          <li>로그인</li>
+          <Link href={"/createStudy"}>
+            <li>등록하기</li>
+          </Link>
+          <Link href={"/login"}>
+            <li>로그인</li>
+          </Link>
         </NavUl>
       </RightBlock>
       {/*<NavBarUl>*/}
