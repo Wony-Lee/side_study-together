@@ -1,13 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-  ChangeEvent,
-  Dispatch,
-  ReactEventHandler,
-  SetStateAction,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { iconLogo } from "../../public/images/url_image";
 
 const Wrapper = styled.div`
@@ -19,7 +13,9 @@ const Wrapper = styled.div`
 
 const LogoWrapper = styled.div`
   display: flex;
-  height: 23vh;
+  height: 18vh;
+  position: relative;
+  top: 4px;
   align-items: center;
   justify-content: center;
   /* background-color: orange; */
@@ -27,6 +23,9 @@ const LogoWrapper = styled.div`
 `;
 
 const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 77vh;
   /* background-color: rgb(233, 233, 233, 0.4); */
   /* background-color: yellow; */
@@ -35,6 +34,7 @@ const MainWrapper = styled.div`
 
 const CheckAllWrapper = styled.div`
   display: flex;
+  width: 100%;
   height: 7%;
   margin: 5px;
   /* background-color: green; */
@@ -45,7 +45,7 @@ const CheckAllWrapper = styled.div`
 const CheckWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  width: 100%;
   height: 28%;
   margin-bottom: 10px;
   /* background-color: blue; */
@@ -54,24 +54,30 @@ const CheckWrapper = styled.div`
 
 const LabelWrapper = styled.div`
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
+  cursor: pointer;
+  input {
+    cursor: pointer;
+  }
+  label {
+    cursor: pointer;
+  }
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  height: 9%;
+  height: 6%;
   align-items: center;
   justify-content: center;
   /* background-color: pink; */
 `;
 
 const CheckBox = styled.input`
-  width: 23px;
-  height: 23px;
-  vertical-align: middle;
-  cursor: pointer;
+  width: 21px;
+  height: 21px;
 `;
 
 const Label = styled.label`
@@ -135,62 +141,27 @@ function TermsOfService() {
   return (
     <Wrapper>
       <LogoWrapper>
-        <Image src={iconLogo} alt="StudyLogo" width={300} height={300} />
+        <Image src={iconLogo} alt="StudyLogo" width={200} height={200} />
       </LogoWrapper>
       <hr />
       <MainWrapper>
-        {/*
-          엘리먼트 위에 주석으로 1, 2, 3 적어놓으니 참고해주세요
-
-          문제점
-          - checkbox input이 div안에 있으면 checkbox click이 안됌.
-          - 1번과 같이 div안에 없으면 click 잘 됌.
-          - 2번 혼자 렌더링 됐을 때는 클릭이 안 됐지만 1번 먼저 렌더링 해주고
-          그 다음 2번 렌더링 해주면 체크 박스 클릭이 되긴 하는데 체크박스 영역 y축기준으로
-          반나눴을 때 위는 클릭안돼고 아래만 클릭됌.  
-          - 1번 2번 3번 다 렌더링 하면 1번은 정상작동 2번은 영역의 반만 클릭 가능 
-          3번은 체크박스 전체영역 클릭가능  
-          */}
-        {/* 1 */}
-        <CheckBox
-          type="checkbox"
-          id="checkAllt"
-          checked={checkAll}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            // 상태는 이 함수에서 바로 변경이 안된다. rendering전에 되는듯..?
-            const checked = e.currentTarget.checked;
-            setCheckAll((prev) => !prev);
-            setCheckAgree(checked);
-            setCheckPersonal(checked);
-            setCheckPromotion(checked);
-          }}
-        />
-        <Label htmlFor="checkAllt">전체동의</Label>
-        {/* 2 */}
-        {/* <CheckAllWrapper>
+        <CheckAllWrapper>
           <LabelWrapper>
             <CheckBox
-              //   checked={checkAll}
+              checked={checkAll}
               type="checkbox"
               id="checkAll"
-              //   onChange={() => setCheckAll((prev) => !prev)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const checked = e.currentTarget.checked;
+                setCheckAll((prev) => !prev);
+                setCheckAgree(checked);
+                setCheckPersonal(checked);
+                setCheckPromotion(checked);
+              }}
             />
             <Label htmlFor="checkAll">전체동의</Label>
           </LabelWrapper>
-        </CheckAllWrapper> */}
-        {/* 3 */}
-        {/* <CheckAllWrapper>
-          <LabelWrapper>
-            <CheckBox
-              //   checked={checkAll}
-              type="checkbox"
-              id="checkAll"
-              //   onChange={() => setCheckAll((prev) => !prev)}
-            />
-            <Label htmlFor="checkAll">전체동의</Label>
-          </LabelWrapper>
-        </CheckAllWrapper> */}
-        <hr />
+        </CheckAllWrapper>
         <CheckWrapper>
           <LabelWrapper>
             <CheckBox

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { iconID, iconLogo, iconPassword } from "../../public/images/url_image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { SpanError } from "../Error/Error";
 
 interface ILogin {
   id: string;
@@ -79,12 +80,6 @@ const Button = styled.button`
     background-color: black;
     color: white;
   }
-`;
-
-const SpanError = styled.span`
-  margin-top: 10px;
-  color: red;
-  font-size: 20px;
 `;
 
 const LinkWrapper = styled.div`
