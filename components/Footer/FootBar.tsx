@@ -2,10 +2,11 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const Global = styled.div`
-  position: fixed;
   max-width: 1024px;
   width: 100%;
   bottom: 0;
+  position: fixed;
+
   @media (max-height: 860px) {
     position: relative;
   }
@@ -14,8 +15,8 @@ const Global = styled.div`
 const Layout = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
-  border: 1px solid yellowgreen;
 `;
 
 const MenuBox = styled.div`
@@ -23,8 +24,7 @@ const MenuBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 220px;
-  height: 50px;
-  border: 1px solid red;
+  height: 65px;
   cursor: pointer;
   &:hover {
     color: pink;

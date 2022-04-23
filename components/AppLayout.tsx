@@ -13,6 +13,8 @@ const Layout = styled.div`
 const ContentWrap = styled.div`
   max-width: 1024px;
   width: 100%;
+  overflow: scroll;
+  height: 900px;
 `;
 
 const Content = styled.div`
