@@ -14,6 +14,7 @@ const Home: NextPage = () => {
       <Frame />
       <TermsOfService />
       <SignUp />
+      <Login />
     </AppLayout>
   );
 };
