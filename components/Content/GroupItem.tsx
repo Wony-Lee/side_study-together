@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 const Layout = styled.div`
   margin: 20px 0 20px 0;
   border: 1px solid black;
+  border-radius: 16px;
   width: 500px;
 `;
 
@@ -12,12 +13,10 @@ const Header = styled.div`
   align-items: center;
   width: 100%;
   height: 30px;
-  border: 1px solid red;
   box-sizing: border-box;
   .number {
     width: 30px;
     text-align: center;
-    border: 1px solid gold;
     padding: 5px;
   }
   .title {
@@ -33,21 +32,18 @@ const Subject = styled.div`
   align-items: center;
   justify-content: center;
   height: 30px;
-  border: 1px solid red;
 `;
 
 const Detail = styled.div<{ viewState: boolean }>`
   display: flex;
   flex-direction: column;
   height: 200px;
-  border: 1px solid red;
   .top {
     width: 100%;
     height: 70%;
     padding: 10px;
     overflow: scroll;
     box-sizing: border-box;
-    border: 1px solid skyblue;
   }
   .bottom {
     display: flex;
@@ -56,7 +52,16 @@ const Detail = styled.div<{ viewState: boolean }>`
     height: 30%;
     padding: 10px;
     box-sizing: border-box;
-    border: 1px solid greenyellow;
+    @keyframes bottomFade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    animation-duration: 2s;
+    animation-name: bottomFade;
     .count {
       width: 70%;
     }
@@ -64,6 +69,7 @@ const Detail = styled.div<{ viewState: boolean }>`
       display: flex;
       justify-content: end;
       width: 30%;
+
       button {
         padding: 15px;
         color: white;
@@ -80,22 +86,10 @@ const Detail = styled.div<{ viewState: boolean }>`
   }
   @keyframes fadeIn {
     from {
-      opacity: 0;
       height: 0px;
     }
     to {
-      opacity: 1;
       height: 200px;
-    }
-  }
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-      height: 200px;
-    }
-    to {
-      opacity: 0;
-      height: 0px;
     }
   }
   animation-duration: 2s;
