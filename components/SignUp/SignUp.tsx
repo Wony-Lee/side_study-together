@@ -22,7 +22,7 @@ interface ISignUp {
 
 interface IInput {
   customWidth: number | string;
-  customAlignment: string;
+  customAlignment?: string;
 }
 
 const Wrapper = styled.div`
@@ -76,6 +76,10 @@ const Label = styled.label`
   background-color: blueviolet;
 `;
 
+const Inputs = styled.input<{ test?: string }>`
+  background-color: ${({ test }) => test && "black"};
+`;
+
 const Input = styled.input<IInput>`
   width: ${(props) => props.customWidth};
   height: 23px;
@@ -85,7 +89,9 @@ const Input = styled.input<IInput>`
   margin-right: 8px;
   padding-left: 5px;
   border: 0;
-  text-align: ${(props) => props.customAlignment || "left"};
+  /* ${(props) =>
+    props.customAlignment ? "text-align:center" : "text-align:left"} */
+  text-align: ${(props) => props.customAlignment && "left"};
   &:focus {
     outline: none; // !important;
     border: 1px solid;
@@ -118,6 +124,7 @@ function SignUp() {
   const onValid = () => {};
   return (
     <Wrapper>
+      <Inputs />
       <LogoWrapper>
         <Image src={iconLogo} alt="StudyLogo" width={200} height={200} />
       </LogoWrapper>
@@ -127,7 +134,6 @@ function SignUp() {
             <Label htmlFor="id">아이디</Label>
             <Input
               customWidth={"70%"}
-              customAlignment={""}
               placeholder="4글자 이상"
               {...register("id", {
                 required: "ID를 입력해주세요",
