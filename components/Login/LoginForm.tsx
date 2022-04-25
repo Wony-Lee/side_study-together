@@ -4,6 +4,7 @@ import { iconID, iconLogo, iconPassword } from "../../public/images/url_image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { SpanError } from "../Error/Error";
+import { useRouter } from "next/router";
 
 interface ILogin {
   id: string;
@@ -108,16 +109,34 @@ const LinkWrapper = styled.div`
   }
 `;
 
+function checkUserAccount(data: ILogin) {
+  const { id, password } = data;
+  let isSuccess = false;
+  if (id === "test" && password == "test") {
+    isSuccess = true;
+  }
+  return isSuccess;
+}
+
 function LoginForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ILogin>();
   const onValid = (data: ILogin) => {
+    // Check Valid User
+    if (checkUserAccount(data)) {
+      router.push(`/`);
+    } else {
+      alert("아이디 또는 패스워드를 다시 확인해주세요");
+    }
+
     console.log(data.id);
     console.log(data.password);
   };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid)}>
@@ -130,8 +149,8 @@ function LoginForm() {
             {...register("id", {
               required: "아이디를 입력해주세요",
               minLength: {
-                value: 5,
-                message: "최소 5글자 이상을 입력해주세요. ",
+                value: 4,
+                message: "최소 4글자 이상을 입력해주세요. ",
               },
             })}
           />
@@ -141,6 +160,7 @@ function LoginForm() {
           <ImageWrapper url={iconPassword} alt="iconPassword" />
           <Input
             placeholder="비밀번호"
+            type="password"
             {...register("password", {
               required: "비밀번호를 입력해주세요",
             })}
