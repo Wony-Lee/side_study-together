@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
 const LogoWrapper = styled.div`
   display: flex;
-  height: 18vh;
+  height: 15%;
   position: relative;
   top: 4px;
   align-items: center;
@@ -25,17 +25,21 @@ const LogoWrapper = styled.div`
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 85%;
   align-items: center;
-  height: 77vh;
   /* background-color: rgb(233, 233, 233, 0.4); */
-  /* background-color: yellow; */
+  /* background-color: #0e0e0c; */
   /* margin: 10px; */
+  hr {
+    width: 100%;
+    /* border: 1px solid black; */
+  }
 `;
 
 const CheckAllWrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 7%;
+  height: 5%;
   margin: 5px;
   /* background-color: green; */
   align-items: center;
@@ -46,14 +50,15 @@ const CheckWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 28%;
-  margin-bottom: 10px;
+  height: 30%;
+  margin-bottom: 5px;
   /* background-color: blue; */
   align-items: center;
 `;
 
 const LabelWrapper = styled.div`
   display: flex;
+  width: 100%;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -69,7 +74,8 @@ const LabelWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  height: 6%;
+  width: 70%;
+  height: 5%;
   align-items: center;
   justify-content: center;
   /* background-color: pink; */
@@ -91,21 +97,20 @@ const SpanEssential = styled.span`
 `;
 
 const TextArea = styled.textarea`
-  width: 500px;
-  height: 20vh;
+  width: 550px;
+  height: 120px;
   font-size: 11px;
   background-color: rgba(255, 255, 255, 1);
   resize: none;
 `;
 
-const Button = styled.button`
-  width: 200px;
+const Button = styled.button<{ disabled: boolean }>`
+  width: 170px;
   height: 30px;
   margin: 10px;
-  /* background-color: white; */
+  //background-color:${({ disabled }) => (disabled ? "black" : "skyblue")}
   border: 0;
   &:hover {
-    background-color: black;
     color: white;
   }
 `;
@@ -115,6 +120,7 @@ function TermsOfService() {
   const [checkAgree, setCheckAgree] = useState(false);
   const [checkPersonal, setCheckPersonal] = useState(false);
   const [checkPromotion, setCheckPromotion] = useState(false);
+  const [checkEssential, setCheckEssential] = useState(true);
   const router = useRouter();
   const companyName = "스터디";
   const paragraph_1 = `${companyName} 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 ${companyName} 서비스의 이용과 관련하여 ${companyName} 서비스를 제공하는 ${companyName} 주식회사(이하 ‘${companyName}’)와 이를 이용하는 ${companyName} 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 ${companyName} 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.`;
@@ -138,13 +144,22 @@ function TermsOfService() {
       setCheckAll(checkdState);
     }
   };
+
+  const isDisabled = (bAgree: boolean, bPersonal: boolean) => {
+    let disabled = true;
+    if (bAgree && bPersonal) {
+      disabled = false;
+    }
+    setCheckEssential(disabled);
+  };
+
   return (
     <Wrapper>
       <LogoWrapper>
-        <Image src={iconLogo} alt="StudyLogo" width={200} height={200} />
+        <Image src={iconLogo} alt="StudyLogo" width={180} height={180} />
       </LogoWrapper>
-      <hr />
       <MainWrapper>
+        <hr />
         <CheckAllWrapper>
           <LabelWrapper>
             <CheckBox
@@ -157,25 +172,28 @@ function TermsOfService() {
                 setCheckAgree(checked);
                 setCheckPersonal(checked);
                 setCheckPromotion(checked);
+                setCheckEssential(!checked);
               }}
             />
             <Label htmlFor="checkAll">전체동의</Label>
           </LabelWrapper>
         </CheckAllWrapper>
+        <hr />
         <CheckWrapper>
           <LabelWrapper>
             <CheckBox
               checked={checkAgree}
               type="checkbox"
               id="checkAgree"
-              onChange={(e) =>
+              onChange={(e) => {
                 changeCheckState(
                   setCheckAgree,
                   e,
                   checkPersonal,
                   checkPromotion
-                )
-              }
+                );
+                isDisabled(e.currentTarget.checked, checkPersonal);
+              }}
             />
             <Label htmlFor="checkAgree">{companyName} 이용약관 동의</Label>
             <SpanEssential color="red">(필수)</SpanEssential>
@@ -191,14 +209,15 @@ function TermsOfService() {
               checked={checkPersonal}
               type="checkbox"
               id="checkPersonalInfo"
-              onChange={(e) =>
+              onChange={(e) => {
                 changeCheckState(
                   setCheckPersonal,
                   e,
                   checkAgree,
                   checkPromotion
-                )
-              }
+                );
+                isDisabled(e.currentTarget.checked, checkAgree);
+              }}
             ></CheckBox>
             <Label htmlFor="checkPersonalInfo">
               개인정보 수집 및 이용 동의
@@ -236,6 +255,7 @@ function TermsOfService() {
         </CheckWrapper>
         <ButtonWrapper>
           <Button
+            disabled={false}
             onClick={() => {
               router.push(`/`);
             }}
@@ -243,6 +263,7 @@ function TermsOfService() {
             취소
           </Button>
           <Button
+            disabled={checkEssential}
             onClick={() => {
               router.push(`/signUp`);
             }}
