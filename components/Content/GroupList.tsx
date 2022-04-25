@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import GroupItem from "./GroupItem";
+import { useDispatch } from "react-redux";
+import { SET_MODAL_ON } from "../../reducers/studyReducer";
 
 const Layout = styled.div`
   display: flex;
@@ -14,6 +16,7 @@ const Layout = styled.div`
 `;
 
 const GroupList = () => {
+  const dispatch = useDispatch();
   const groupSample = [
     { id: 1, title: "타이틀1" },
     { id: 2, title: "타이틀2" },
@@ -22,10 +25,21 @@ const GroupList = () => {
     { id: 5, title: "타이틀5" },
     { id: 6, title: "타이틀6" },
   ];
+  const handleModalOn = useCallback(() => {
+    dispatch({
+      type: SET_MODAL_ON,
+      payload: true,
+    });
+  }, []);
   return (
     <Layout>
       {groupSample.map((item) => (
-        <GroupItem key={item.id} id={item.id} title={item.title} />
+        <GroupItem
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          onModal={handleModalOn}
+        />
       ))}
     </Layout>
   );

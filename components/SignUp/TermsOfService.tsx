@@ -98,14 +98,13 @@ const TextArea = styled.textarea`
   resize: none;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ disabled: boolean }>`
   width: 200px;
   height: 30px;
   margin: 10px;
-  /* background-color: white; */
+  //background-color:${({ disabled }) => (disabled ? "black" : "skyblue")}
   border: 0;
   &:hover {
-    background-color: black;
     color: white;
   }
 `;
@@ -236,6 +235,7 @@ function TermsOfService() {
         </CheckWrapper>
         <ButtonWrapper>
           <Button
+            disabled={false}
             onClick={() => {
               router.push(`/`);
             }}
@@ -243,6 +243,7 @@ function TermsOfService() {
             취소
           </Button>
           <Button
+            disabled={false}
             onClick={() => {
               router.push(`/signUp`);
             }}

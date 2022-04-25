@@ -6,6 +6,7 @@ const Global = styled.div`
   width: 100%;
   bottom: 0;
   position: fixed;
+
   @media (max-height: 860px) {
     position: relative;
   }

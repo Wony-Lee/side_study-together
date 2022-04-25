@@ -1,14 +1,10 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
-
-interface Props {
-  id: number;
-  title: string;
-}
 
 const Layout = styled.div`
   margin: 20px 0 20px 0;
   border: 1px solid black;
+  border-radius: 16px;
   width: 500px;
 `;
 
@@ -17,12 +13,10 @@ const Header = styled.div`
   align-items: center;
   width: 100%;
   height: 30px;
-  border: 1px solid red;
   box-sizing: border-box;
   .number {
     width: 30px;
     text-align: center;
-    border: 1px solid gold;
     padding: 5px;
   }
   .title {
@@ -38,23 +32,18 @@ const Subject = styled.div`
   align-items: center;
   justify-content: center;
   height: 30px;
-  border: 1px solid red;
 `;
 
-const Detail = styled.div`
+const Detail = styled.div<{ viewState: boolean }>`
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 200px;
-  border: 1px solid red;
   .top {
     width: 100%;
     height: 70%;
     padding: 10px;
-
     overflow: scroll;
     box-sizing: border-box;
-    border: 1px solid skyblue;
   }
   .bottom {
     display: flex;
@@ -62,9 +51,17 @@ const Detail = styled.div`
     width: 100%;
     height: 30%;
     padding: 10px;
-
     box-sizing: border-box;
-    border: 1px solid greenyellow;
+    @keyframes bottomFade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    animation-duration: 2s;
+    animation-name: bottomFade;
     .count {
       width: 70%;
     }
@@ -72,12 +69,14 @@ const Detail = styled.div`
       display: flex;
       justify-content: end;
       width: 30%;
+
       button {
         padding: 15px;
         color: white;
         border: 0;
         border-radius: 12px;
         background: radial-gradient(skyblue, deepskyblue);
+
         &:active {
           color: mediumvioletred;
           background: radial-gradient(white, lightcoral);
@@ -85,44 +84,71 @@ const Detail = styled.div`
       }
     }
   }
+  @keyframes fadeIn {
+    from {
+      height: 0px;
+    }
+    to {
+      height: 200px;
+    }
+  }
+  animation-duration: 2s;
+  animation-name: ${({ viewState }) => (viewState ? "fadeIn" : "fadeOut")};
 `;
 
-const GroupItem = ({ id, title }: Props) => {
+interface Props {
+  id: number;
+  title: string;
+  onModal: () => void;
+}
+
+const GroupItem = ({ id, title, onModal }: Props) => {
+  const [viewState, setViewState] = useState(false);
+
+  const handleDetail = useCallback(() => {
+    setViewState((prev) => (prev = !prev));
+  }, []);
   return (
     <Layout>
       <Header>
         <p className={"number"}>{id}</p>
         <p className={"title"}>{title}</p>
       </Header>
-      <Subject>자세히 보기</Subject>
-      <Detail>
-        <div className={"top"}>
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-          상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
-        </div>
-        <div className={"bottom"}>
-          <p className={"count"}>현재 인원 1/10</p>
-          <div className={"item"}>
-            <button>참가하기</button>
+      <Subject>
+        <button onClick={handleDetail}>
+          {viewState ? "닫기" : "자세히 보기"}
+        </button>
+      </Subject>
+      {viewState && (
+        <Detail viewState={viewState}>
+          <div className={"top"}>
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
+            상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명상세설명
           </div>
-        </div>
-      </Detail>
+          <div className={"bottom"}>
+            <p className={"count"}>현재 인원 1/10</p>
+            <div className={"item"}>
+              <button onClick={onModal}>참가하기</button>
+            </div>
+          </div>
+        </Detail>
+      )}
     </Layout>
   );
 };
