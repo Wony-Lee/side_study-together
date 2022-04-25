@@ -4,6 +4,7 @@ import { iconID, iconLogo, iconPassword } from "../../public/images/url_image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { SpanError } from "../Error/Error";
+import { useRouter } from "next/router";
 
 interface ILogin {
   id: string;
@@ -38,11 +39,13 @@ const InputWrapper = styled.div`
   height: 40px;
   margin-top: 15px;
   align-items: center;
+
+  position: relative;
   /* justify-content: center; */
 `;
 
 const Input = styled.input`
-  position: absolute;
+  //position: absolute;
   width: 350px; // InputWrapper에 감싸져 있는데 100%하면 왜 침범..? div에 맞게 조절되는거 아닌가
   height: 40px;
   border: 0;
@@ -52,19 +55,24 @@ const Input = styled.input`
   background-color: rgb(233, 233, 233);
 `;
 
+const ImageWrap = styled.div`
+  position: absolute;
+`;
+
 const ImageWrapper = ({ url, alt }: IImageWrapper) => {
   return (
-    <Image
-      style={{
-        position: "absolute",
-        paddingLeft: "6px",
-        backgroundColor: "transparent",
-      }}
-      src={url}
-      alt={alt}
-      width={35}
-      height={35}
-    />
+    <ImageWrap>
+      <Image
+        style={{
+          paddingLeft: "6px",
+          backgroundColor: "transparent",
+        }}
+        src={url}
+        alt={alt}
+        width={35}
+        height={35}
+      />
+    </ImageWrap>
   );
 };
 
@@ -102,47 +110,67 @@ const LinkWrapper = styled.div`
   }
 `;
 
-function Login() {
+function checkUserAccount(data: ILogin) {
+  const { id, password } = data;
+  let isSuccess = false;
+  if (id === "test" && password == "test") {
+    isSuccess = true;
+  }
+  return isSuccess;
+}
+
+function LoginForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ILogin>();
   const onValid = (data: ILogin) => {
+    // Check Valid User
+    if (checkUserAccount(data)) {
+      router.push(`/`);
+    } else {
+      alert("아이디 또는 패스워드를 다시 확인해주세요");
+    }
+
     console.log(data.id);
     console.log(data.password);
   };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid)}>
         <Image src={iconLogo} alt="StudyLogo" width={300} height={300} />
-        {/* <img src={"/images/icons/people_icon.png"} alt="StudyLogo" /> */}
+        {/*<img src={"/images/icons/people_icon.png"} alt="StudyLogo" />*/}
         <InputWrapper>
+          <ImageWrapper url={iconID} alt="iconID" />
           <Input
             placeholder="아이디"
             {...register("id", {
               required: "아이디를 입력해주세요",
               minLength: {
-                value: 5,
-                message: "최소 5글자 이상을 입력해주세요. ",
+                value: 4,
+                message: "최소 4글자 이상을 입력해주세요. ",
               },
             })}
           />
-          <ImageWrapper url={iconID} alt="iconID" />
         </InputWrapper>
         <SpanError>{errors?.id?.message}</SpanError>
         <InputWrapper>
+          <ImageWrapper url={iconPassword} alt="iconPassword" />
           <Input
             placeholder="비밀번호"
+            type="password"
             {...register("password", {
               required: "비밀번호를 입력해주세요",
             })}
           />
-          <ImageWrapper url={iconPassword} alt="iconPassword" />
         </InputWrapper>
         <SpanError>{errors?.password?.message}</SpanError>
         <Button type="submit">로그인</Button>
       </Form>
+
       <LinkWrapper>
         <Link href={"#"}>아이디 찾기</Link>
         <Link href={"#"}>비밀번호 찾기</Link>
@@ -151,4 +179,4 @@ function Login() {
     </Wrapper>
   );
 }
-export default Login;
+export default LoginForm;

@@ -1,5 +1,6 @@
 import { AnyAction, CombinedState, combineReducers } from "redux";
 import { HYDRATE } from "next-redux-wrapper";
+import study, { IStudyState } from "./studyReducer";
 
 const rootReducer = (
   state: IState | undefined,
@@ -9,7 +10,9 @@ const rootReducer = (
     case HYDRATE:
       return { ...action.payload };
     default: {
-      const combineReducer = combineReducers({});
+      const combineReducer = combineReducers({
+        study,
+      });
       return combineReducer(state, action);
     }
   }
@@ -18,4 +21,6 @@ const rootReducer = (
 export type RootState = ReturnType<typeof rootReducer>;
 export default rootReducer;
 
-interface IState {}
+interface IState {
+  study: IStudyState;
+}
