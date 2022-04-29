@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import Link from "next/link";
 
 const Global = styled.div`
   max-width: 1024px;
@@ -38,7 +39,9 @@ const FootBar = () => {
         <MenuBox>전체보기</MenuBox>
         <MenuBox>뭘넣지?</MenuBox>
         <MenuBox>참여목록</MenuBox>
-        <MenuBox>MyPage</MenuBox>
+        <Link href={{ pathname: "/mypage", query: { name: "jisoo" } }}>
+          <MenuBox>MyPage</MenuBox>
+        </Link>
       </Layout>
     </Global>
   );
