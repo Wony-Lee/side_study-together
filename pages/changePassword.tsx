@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { SpanError } from "../components/Error/Error";
+import { SpanError } from "../components/Error";
 
 interface IChangePassword {
   currPassword: string;

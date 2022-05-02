@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { iconLogo } from "../public/images/url_image";
-import { SpanError } from "../components/Error/Error";
+import { SpanError } from "../components/Error";
 
 interface ISignUp {
   id: string;

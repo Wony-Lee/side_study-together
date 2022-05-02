@@ -3,7 +3,7 @@ import Image from "next/image";
 import { iconID, iconLogo, iconPassword } from "../public/images/url_image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { SpanError } from "../components/Error/Error";
+import { SpanError } from "../components/Error";
 import { useRouter } from "next/router";
 import { personInfo } from "../public/personInfo";
 

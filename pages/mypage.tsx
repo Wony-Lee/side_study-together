@@ -5,7 +5,7 @@ import { changeProfilePhoto, uploadFileToFireBase } from "../public/file";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { SpanError } from "../components/Error/Error";
+import { SpanError } from "../components/Error";
 import { personInfo } from "../public/personInfo";
 import { regions } from "./signUp";
 

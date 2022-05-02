@@ -1,7 +1,7 @@
 // Simple React Snippets 'rafce', it is similiar with template
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
-import { SpanError } from "../components/Error/Error";
+import { SpanError } from "../components/Error";
 
 interface IStudyForm {
   capacity: number;
