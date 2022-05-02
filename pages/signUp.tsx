@@ -93,7 +93,7 @@ const Input = styled.input<IInput>`
   /* background-color: gray; */
 `;
 
-const VisibleSpan = styled.span`
+export const VisibleSpan = styled.span`
   display: inline-flex;
   width: 45px;
   justify-content: center;
@@ -110,7 +110,7 @@ const Select = styled.select`
   font-size: 18px;
 `;
 
-const regions = [
+export const regions = [
   "서울",
   "인천",
   "대전",
@@ -249,9 +249,8 @@ function SignUp() {
               type="date"
               style={{ textAlign: "center" }}
               customWidth={"140px"}
-              placeholder="년(4자)"
               {...register("birthDate", {})}
-            ></Input>
+            />
           </SmallWrapper>
           <SmallWrapper>
             <Label htmlFor="region">지역</Label>
@@ -267,7 +266,6 @@ function SignUp() {
             <Label htmlFor="phoneNumber">전화번호</Label>
             <Input
               // type="number"
-              customWidth={"70%"}
               placeholder="숫자만 입력"
               onKeyDown={(e) => {
                 e.currentTarget.value = e.currentTarget.value.replace(
@@ -295,7 +293,6 @@ function SignUp() {
           <SmallWrapper>
             <Label htmlFor="email">이메일</Label>
             <Input
-              customWidth={"70%"}
               placeholder="이메일"
               {...register("email", {
                 required: "이메일을 입력해주세요",
@@ -309,7 +306,7 @@ function SignUp() {
                   },
                 },
               })}
-            ></Input>
+            />
             <SpanError>{errors?.email?.message}</SpanError>
           </SmallWrapper>
           <Button type="submit">회원등록</Button>

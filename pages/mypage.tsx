@@ -3,6 +3,11 @@ import { ChangeEvent, useState } from "react";
 import { iconProfile } from "../public/images/url_image";
 import { changeProfilePhoto, uploadFileToFireBase } from "../public/file";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { SpanError } from "../components/Error/Error";
+import { personInfo } from "../public/personInfo";
+import { regions } from "./signUp";
 
 interface IMyPage {
   name: string;
@@ -10,6 +15,11 @@ interface IMyPage {
   region: string;
   phoneNumber: string;
   email: string;
+}
+
+interface IInput {
+  customWidth?: number | string;
+  // customAlignment?: string;
 }
 
 const Wrapper = styled.div`
@@ -63,10 +73,21 @@ const DetailWrapper = styled.div`
 
 const InputWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 50px;
-  align-items: center;
+  justify-content: center;
+  /* align-items: center; */
   background-color: brown;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 50px;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: blue;
 `;
 
 const Label = styled.label`
@@ -74,6 +95,13 @@ const Label = styled.label`
   width: 100px;
   background-color: aliceblue;
   padding-left: 10px;
+`;
+
+const Input = styled.input<IInput>`
+  width: ${(props) => props.customWidth || "200px"};
+  /* height: 28px; */
+  margin-left: 5px;
+  font-size: 16px;
 `;
 
 const TextArea = styled.textarea`
@@ -134,12 +162,25 @@ const ButtonPhotoApply = styled.button`
   cursor: pointer;
 `;
 
+const Select = styled.select`
+  width: 30%;
+  margin-top: 4px;
+  margin-left: 8px;
+  font-size: 18px;
+`;
+
+const Button = styled.button`
+  width: 100px;
+  margin: 3px;
+`;
+
 export default function MyPage() {
+  console.log(personInfo.birthDate);
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<IMyPage>();
   const [attachment, setAttachment] = useState(iconProfile);
   const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -148,14 +189,22 @@ export default function MyPage() {
     const theFile = files?.[0];
     changeProfilePhoto(theFile, setAttachment);
   };
-
+  const onValid = (data: IMyPage) => {
+    console.log(data.name);
+  };
+  // const router = useRouter();
   return (
     <Wrapper>
       <ProfileWrapper>
         <ProfileImageWrapper>
           <Img src={attachment}></Img>
           <LabelEdit htmlFor="file">Edit</LabelEdit>
-          <ButtonPhotoCancel onClick={() => setAttachment(iconProfile)}>
+          <ButtonPhotoCancel
+            onClick={() => {
+              setAttachment(iconProfile);
+              (document.getElementById("file") as HTMLInputElement).value = "";
+            }}
+          >
             Cancel
           </ButtonPhotoCancel>
           <ButtonPhotoApply onClick={() => uploadFileToFireBase(attachment)}>
@@ -174,30 +223,96 @@ export default function MyPage() {
         </ProfileIntroduceWrapper>
       </ProfileWrapper>
       <DetailWrapper>
-        <form>
+        <InputWrapper>
+          <Label htmlFor="password">비밀번호</Label>
+          <Link href="/changePassword" passHref>
+            {
+              //useRouter를 이용하여 url을 변경하니까 다시 뒤로가기가 되는현상발생
+              //button onClick= {() => router.push(/"changePassword")}
+            }
+            <Input type="button" value="변경" customWidth={"80px"} />
+          </Link>
+        </InputWrapper>
+        <form onSubmit={handleSubmit(onValid)}>
           <InputWrapper>
-            <Label htmlFor="password">비밀번호</Label>
-            <button style={{ marginLeft: "5px" }}>변경</button>
+            <Label htmlFor="name">이름</Label>
+            <Input
+              defaultValue={personInfo.name}
+              {...register("name", { required: "이름을 입력해주세요" })}
+            />
+            <SpanError>{errors?.name?.message}</SpanError>
           </InputWrapper>
           <InputWrapper>
-            <Label>이름</Label>
+            <Label htmlFor="birthDate">생년월일</Label>
+            <Input
+              type="date"
+              defaultValue={personInfo.birthDate}
+              {...register("birthDate")}
+            />
           </InputWrapper>
           <InputWrapper>
-            <Label>생년월일</Label>
+            <Label htmlFor="region">지역</Label>
+            <Select
+              defaultValue={personInfo.region}
+              {...register("region", { required: "지역을 선택해주세요" })}
+            >
+              {regions.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </Select>
           </InputWrapper>
           <InputWrapper>
-            <Label>지역</Label>
+            <Label htmlFor="phoneNumber">전화번호</Label>
+            <Input
+              defaultValue={personInfo.phoneNumber}
+              // type="number"
+              placeholder="숫자만 입력"
+              onKeyDown={(e) => {
+                e.currentTarget.value = e.currentTarget.value.replace(
+                  /[^0-9]/g,
+                  ""
+                );
+              }}
+              {...register("phoneNumber", {
+                required: "번호를 입력해주세요",
+                validate: {
+                  isNumber: (value) => {
+                    const result = /^[0-9]+$/.test(value);
+                    return result || "숫자만 입력해주세요";
+                  },
+                  isValidFormat: (value) => {
+                    const result =
+                      /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/.test(value);
+                    return result || "잘못된 형식입니다";
+                  },
+                },
+              })}
+            />
           </InputWrapper>
           <InputWrapper>
-            <Label>전화번호</Label>
+            <Label htmlFor="email">이메일</Label>
+            <Input
+              placeholder="이메일"
+              {...register("email", {
+                required: "이메일을 입력해주세요",
+                validate: {
+                  isValidFormat: (value) => {
+                    const regEmail =
+                      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+                    const result = regEmail.test(value);
+
+                    return result || "잘못된 형식입니다";
+                  },
+                },
+              })}
+            />
           </InputWrapper>
-          <InputWrapper>
-            <Label>이메일</Label>
-          </InputWrapper>
-          <InputWrapper>
-            <button>Save</button>
-            <button>Cancel</button>
-          </InputWrapper>
+          <ButtonWrapper>
+            <Button type="submit">Save</Button>
+            <Link href="/" passHref>
+              <Button>Cancel</Button>
+            </Link>
+          </ButtonWrapper>
         </form>
       </DetailWrapper>
     </Wrapper>

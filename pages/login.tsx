@@ -134,8 +134,9 @@ const Login = () => {
       personInfo.id = "test";
       personInfo.name = "김지수";
       personInfo.birthDate = new Date().toISOString().slice(0, 10);
-      personInfo.region = "서울";
-      personInfo.phoneNumber = "010-4008-6287";
+      personInfo.region = "대전";
+      personInfo.phoneNumber = "01040086287";
+      personInfo.email = "wldnd923@naver.com";
       alert("sign in success");
       router.push(`/`);
     } else {
@@ -182,7 +183,7 @@ const Login = () => {
       <LinkWrapper>
         <Link href={"#"}>아이디 찾기</Link>
         <Link href={"#"}>비밀번호 찾기</Link>
-        <Link href={"/tos"}>회원가입</Link>
+        <Link href={"/termsOfService"}>회원가입</Link>
       </LinkWrapper>
     </Wrapper>
   );

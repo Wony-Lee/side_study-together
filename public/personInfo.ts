@@ -4,4 +4,5 @@ export const personInfo = {
   birthDate: "",
   region: "",
   phoneNumber: "",
+  email: "",
 };
