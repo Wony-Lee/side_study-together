@@ -5,7 +5,6 @@ import Link from "next/link";
 
 const Layout = styled.div`
   display: flex;
-  border: 3px solid gold;
   height: 50px;
 `;
 
@@ -20,7 +19,6 @@ const NavUl = styled.ul`
   display: flex;
   li {
     padding: 10px;
-    border: 1px solid red;
     margin-right: 10px;
     &:hover {
       color: pink;
@@ -34,7 +32,6 @@ const LeftBlock = styled.div`
   align-items: center;
   padding: 10px;
   width: 50%;
-  border: 1px solid red;
   a {
     color: black;
     text-decoration: none;
@@ -49,7 +46,6 @@ const RightBlock = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 50%;
-  border: 1px solid blue;
 `;
 
 interface Props {}

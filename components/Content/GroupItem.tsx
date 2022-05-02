@@ -5,7 +5,10 @@ const Layout = styled.div`
   margin: 20px 0 20px 0;
   border: 1px solid black;
   border-radius: 16px;
-  width: 500px;
+  width: 100%;
+  @media (max-width: 760px) {
+    max-width: 300px;
+  }
 `;
 
 const Header = styled.div`
