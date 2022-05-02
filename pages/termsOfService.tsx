@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { iconLogo } from "../../public/images/url_image";
+import { iconLogo } from "../public/images/url_image";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -275,4 +275,5 @@ function TermsOfService() {
     </Wrapper>
   );
 }
+
 export default TermsOfService;

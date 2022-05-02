@@ -1,6 +1,6 @@
 import { storageService } from "./fBase";
 
-export function ChangeProfilePhoto(files, setState) {
+export function changeProfilePhoto(files, setState) {
   const reader = new FileReader();
   reader.onloadend = (finishedEvent) => {
     const {
@@ -17,8 +17,10 @@ export function ChangeProfilePhoto(files, setState) {
   reader.readAsDataURL(files);
 }
 
-export async function UploadFileToFireBase(attachment) {
-  const fileRef = storageService.ref().child(`${"userID"}/${"uniqueText"}`);
-  const response = await fileRef.putString(attachment, "data_url");
-  console.log(response);
+export async function uploadFileToFireBase(attachment) {
+  const attachmentRef = storageService
+    .ref()
+    .child(`${"userID"}/${"uniqueText"}`);
+  const response = await attachmentRef.putString(attachment, "data_url");
+  const attachmentUrl = await response.ref.getDownloadURL();
 }

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { SpanError } from "../components/Error/Error";
 import { useRouter } from "next/router";
+import { personInfo } from "../public/personInfo";
 
 interface ILogin {
   id: string;
@@ -129,9 +130,16 @@ const Login = () => {
   const onValid = (data: ILogin) => {
     // Check Valid User
     if (checkUserAccount(data)) {
+      // db에서 가져오기
+      personInfo.id = "test";
+      personInfo.name = "김지수";
+      personInfo.birthDate = new Date().toISOString().slice(0, 10);
+      personInfo.region = "서울";
+      personInfo.phoneNumber = "010-4008-6287";
+      alert("sign in success");
       router.push(`/`);
     } else {
-      alert("아이디 또는 패스워드를 다시 확인해주세요");
+      alert("sign in failed");
     }
 
     console.log(data.id);

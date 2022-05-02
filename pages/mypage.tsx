@@ -1,8 +1,16 @@
 import styled from "@emotion/styled";
 import { ChangeEvent, useState } from "react";
 import { iconProfile } from "../public/images/url_image";
-import { ChangeProfilePhoto, UploadFileToFireBase } from "../public/file";
-import firebase, { authService, storageService } from "../public/fBase";
+import { changeProfilePhoto, uploadFileToFireBase } from "../public/file";
+import { useForm } from "react-hook-form";
+
+interface IMyPage {
+  name: string;
+  birthDate: Date;
+  region: string;
+  phoneNumber: string;
+  email: string;
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,7 +48,7 @@ const ProfileIntroduceWrapper = styled.div`
   /* margin-top: 10px; */
   p {
     font-size: 3.5vw;
-    margin-left: 6px;
+    margin: 5px;
     vertical-align: middle;
     background-color: aliceblue;
   }
@@ -74,8 +82,7 @@ const TextArea = styled.textarea`
   border: 0;
   outline: none;
   font-size: 18px;
-  padding: 5px;
-  margin-top: 4px;
+  padding: 3px;
 `;
 
 const Img = styled.img`
@@ -128,15 +135,18 @@ const ButtonPhotoApply = styled.button`
 `;
 
 export default function MyPage() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const [attachment, setAttachment] = useState(iconProfile);
   const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
     } = event;
-    // typescript로 해결하려면 어떻게 해야하지..?
-    // Object[0]  Object null Error
     const theFile = files?.[0];
-    ChangeProfilePhoto(theFile, setAttachment);
+    changeProfilePhoto(theFile, setAttachment);
   };
 
   return (
@@ -148,7 +158,7 @@ export default function MyPage() {
           <ButtonPhotoCancel onClick={() => setAttachment(iconProfile)}>
             Cancel
           </ButtonPhotoCancel>
-          <ButtonPhotoApply onClick={() => UploadFileToFireBase(attachment)}>
+          <ButtonPhotoApply onClick={() => uploadFileToFireBase(attachment)}>
             Apply
           </ButtonPhotoApply>
           <InputEdit
@@ -159,20 +169,36 @@ export default function MyPage() {
           />
         </ProfileImageWrapper>
         <ProfileIntroduceWrapper>
-          <p>자기 소개</p>
+          <p>Profile</p>
           <TextArea></TextArea>
         </ProfileIntroduceWrapper>
       </ProfileWrapper>
       <DetailWrapper>
-        <InputWrapper>
-          <Label>아이디</Label>
-        </InputWrapper>
-        <InputWrapper>
-          <Label>아이디</Label>
-        </InputWrapper>
-        <InputWrapper>
-          <Label>아이디</Label>
-        </InputWrapper>
+        <form>
+          <InputWrapper>
+            <Label htmlFor="password">비밀번호</Label>
+            <button style={{ marginLeft: "5px" }}>변경</button>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>이름</Label>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>생년월일</Label>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>지역</Label>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>전화번호</Label>
+          </InputWrapper>
+          <InputWrapper>
+            <Label>이메일</Label>
+          </InputWrapper>
+          <InputWrapper>
+            <button>Save</button>
+            <button>Cancel</button>
+          </InputWrapper>
+        </form>
       </DetailWrapper>
     </Wrapper>
   );
